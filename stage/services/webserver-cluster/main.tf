@@ -5,12 +5,11 @@ resource "aws_launch_template" "web-server" {
     instance_type = "t2.micro"
     vpc_security_group_ids = [aws_security_group.web-server-sg.id]
 
-    user_data = base64encode(<<-EOF
-                #!/bin/bash
-                echo "Hello, World" > index.html
-                nohup busybox httpd -f -p ${var.server_port} &
-                EOF
-    )
+    user_data = base64encode(templatefile("${path.module}/user-data.sh", {
+        server_port = var.server_port
+        db_address = data.terraform_remote_state.db.outputs.address
+        db_port = data.terraform_remote_state.db.outputs.port
+    }))
 
     lifecycle {
         create_before_destroy = true
@@ -131,15 +130,15 @@ resource "aws_security_group" "web-server-sg" {
     }
 }
 
-variable "server_port" {
-    description = "the port the server will use"
-    type = number 
-    default = 8080
-}
+# Query the db secrets from remote state
+data "terraform_remote_state" "db" {
+    backend = "s3"
 
-output "alb_dns_name" {
-    value = aws_lb.web-server-alb.dns_name
-    description = "The public IP of the web server"
+    config = {
+        bucket = "terraform-stat-25v001"
+        key    = "stage/data-stores/mysql/terraform.tfstate"
+        region = "us-east-1"
+    }
 }
 
 # Query the VPC data 
