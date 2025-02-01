@@ -1,4 +1,4 @@
-## 29 Jan 2024
+## 29 Jan 2025
 
 1. ASG template with image id and instance type
 2. Setup ASG
@@ -28,7 +28,7 @@ terraform output
 ```
 - It is better to use ports above 1024 for web servers and use 80 for load balancers for security reasons.
 
-## 30 Jan 2024
+## 30 Jan 2025
 
 1. Terraform state isolation by workspace
 2. Terraform state isolation by file structure
@@ -60,3 +60,11 @@ terraform workspace list
 export TF_VAR_variable_name="value"
 ```
 15. templatefile is a built-in functions which renders a file from its path and then returns a string. This can be used for inputting ec2 user-data.
+
+** 01 Feb 2025
+
+* What terraform init command does?
+
+- Configures the backend
+- Downloads the modules
+- Initilizes the provider plugins
