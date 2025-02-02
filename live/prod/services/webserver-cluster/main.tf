@@ -3,7 +3,7 @@ provider "aws" {
 }
 
 module "webserver-cluster" {
-    source = "../../../../modules/services/webserver-cluster"
+    source = "github.com/ravikiranvm/terraform-a2z-module//services/webserver-cluster?ref=v0.0.1"
 
     cluster_name = "webservers-prod"
     db_remote_state_bucket = "terraform-stat-25v001"

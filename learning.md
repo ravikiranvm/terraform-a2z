@@ -68,3 +68,26 @@ export TF_VAR_variable_name="value"
 - Configures the backend
 - Downloads the modules
 - Initilizes the provider plugins
+
+** 02 Feb 2024
+
+- Referencing variables from modules using "module." syntax
+- It is better to not use inline blocks.
+```
+ingress {
+
+}
+```
+- Instead use seperate reource blocks
+- Use locals for variables which are exclusive for the module and to not let anyone change them. This is just to follow DRY principle
+- File paths
+```
+path.module
+path.root
+path.cwd
+```
+- Version the modules for effective use and following SDLC principles
+```
+git tag -a "v0.0.1" -m "message"
+git push --follow-tags
+```
